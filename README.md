@@ -1,5 +1,5 @@
 # AÇIK ARTIRMA PROGRAMI
-Bu C programı, basit bir açık artırma simülasyonunu gerçekleştiren bir örnektir. Program, katılımcıların isimlerini, verdikleri teklifleri ve kazanan katılımcının ödeme bilgilerini takip eder. Bu açık artırma senaryosu, temel bir oyun teorisi uygulamasına benzer.
+Bu C programı Dec-c++ yazılmış olup basit bir açık artırma simülasyonunu gerçekleştiren bir örnektir. Program, katılımcıların isimlerini, verdikleri teklifleri ve kazanan katılımcının ödeme bilgilerini takip eder. Bu açık artırma senaryosu, temel bir oyun teorisi uygulamasına benzer.
 # Struct
 Struct bir bellek bloğunda tek bir ad altında fiziksel olarak gruplandırılmış değişkenler listesini tanımlayan ve farklı değişkenlere tek bir işaretçi (pointer) aracılığıyla erişilmesine izin veren bileşik bir veri türüdür. Bu programda TeklifSahibi adlı struct, bir katılımcının adını (ad), verdiği teklifi (teklif), ve ödeme bilgisini (odeme) içerir.
 # Typedef
