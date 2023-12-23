@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {//Katılımcıların adı,soyadı,yaptığı teklif ve ödemesini içeren yapı.
+typedef struct {//KatÄ±lÄ±mcÄ±larÄ±n adÄ±,soyadÄ±,yaptÄ±ÄŸÄ± teklif ve Ã¶demesini iÃ§eren yapÄ±.
     char ad[100];
     double teklif;
     double odeme;
@@ -10,11 +10,11 @@ typedef struct {//Katılımcıların adı,soyadı,yaptığı teklif ve ödemesini içeren y
 
 int main() {
     double baslangicFiyati = 100;
-    TeklifSahibi* enYuksekTeklifSahibi;// Katılımcı bilgilerini tutan dinamik dizi.
+    TeklifSahibi* enYuksekTeklifSahibi;// KatÄ±lÄ±mcÄ± bilgilerini tutan dinamik dizi.
     double teklif;
     int katilimciSayisi;
     int i;
-    int kazananIndex = 0;
+    int kazananIndex = -1; // BaÅŸlangÄ±Ã§ta kazanan belirlenmemiÅŸ.
 
     printf("~~ Acik artirma basliyor ~~\n");
     printf("Baslangic fiyati: %lf $\n", baslangicFiyati);
@@ -26,64 +26,75 @@ int main() {
         printf("Gecersiz katilimci sayisi girildi.\n");
         return 1;
     }
-	// Katılımcı sayısına göre bellekten yer ayıran kısım.
+
+    // KatÄ±lÄ±mcÄ± sayÄ±sÄ±na gÃ¶re bellekten yer ayÄ±ran kÄ±sÄ±m.
     enYuksekTeklifSahibi = (TeklifSahibi*)malloc(katilimciSayisi * sizeof(TeklifSahibi));
-	// Her bir katılımcının bilgileri kullanıcıdan alan kısım.
+
+    // Her bir katÄ±lÄ±mcÄ±nÄ±n bilgileri kullanÄ±cÄ±dan alan kÄ±sÄ±m.
     for (i = 0; i < katilimciSayisi; ++i) {
         printf("%d. katilimcinin ismini giriniz: ", i + 1);
         scanf("%s", enYuksekTeklifSahibi[i].ad);
         enYuksekTeklifSahibi[i].teklif = baslangicFiyati;
         enYuksekTeklifSahibi[i].odeme = 0;
     }
-	double enYuksekTeklif = baslangicFiyati;  // En yüksek teklifin başlangıç değeri.
-	// Açık artırma döngüsü
+
+    double enYuksekTeklif = baslangicFiyati;  // En yÃ¼ksek teklifin baÅŸlangÄ±Ã§ deÄŸeri.
+
+    // AÃ§Ä±k artÄ±rma dÃ¶ngÃ¼sÃ¼
     while (1) {
         printf("Teklif yapmak isteyen katilimci numarasini giriniz (Cikmak icin 0'a basiniz): ");
         scanf("%d", &i);
 
-        if (i == 0) {// Eğer kullanıcı 0'a basarsa, açık artırma sona eriyor.
+        if (i == 0) {
             printf("Acik artirma sona erdi.\n");
-			while (getchar() != '\n');
+            while (getchar() != '\n');/*KullanÄ±cÄ±nÄ±n scanf fonksiyonu ile giriÅŸ yaptÄ±ÄŸÄ± deÄŸerin 
+			ardÄ±ndan oluÅŸan newline karakterini (Enter tuÅŸuna basÄ±lmasÄ± sonucu oluÅŸan karakter) 
+			temizlemek iÃ§in kullanÄ±lÄ±r. */
 
-			// En yüksek teklifi yapan katılımcıyı bulma işlemi.
-            for (i = 1; i < katilimciSayisi; ++i) {
-                if (enYuksekTeklifSahibi[i].teklif > enYuksekTeklifSahibi[kazananIndex].teklif) {
+            // En yÃ¼ksek teklifi yapan katÄ±lÄ±mcÄ±yÄ± bulma iÅŸlemi.
+            for (i = 0; i < katilimciSayisi; ++i) {
+                if (kazananIndex == -1 || enYuksekTeklifSahibi[i].teklif > enYuksekTeklifSahibi[kazananIndex].teklif) {
                     kazananIndex = i;
                 }
             }
-			//Programın sonundaki kazanan katılımcı bilgilerini ve ödenecek tutarı ekrana yazdıran kısım.
+
+            // ProgramÄ±n sonundaki kazanan katÄ±lÄ±mcÄ± bilgilerini ve Ã¶denecek tutarÄ± ekrana yazdÄ±ran kÄ±sÄ±m.
             printf("En yuksek teklif: %lf$ (%s)\n", enYuksekTeklifSahibi[kazananIndex].teklif, enYuksekTeklifSahibi[kazananIndex].ad);
 
             double kazananOdeme = enYuksekTeklifSahibi[kazananIndex].teklif;
             printf("%s, Odemeniz gereken toplam tutar: %lf$\n", enYuksekTeklifSahibi[kazananIndex].ad, kazananOdeme + baslangicFiyati);
 
-            free(enYuksekTeklifSahibi);// Bellekten ayrılan alan temizleyen ve sonlandıran kısım.
-
+            free(enYuksekTeklifSahibi);  // Bellekten ayrÄ±lan alanÄ± temizleyen ve sonlandÄ±ran kÄ±sÄ±m.
             return 0;
         }
-		// Kullanıcının girdiği katılımcı numarasının geçerli olup olmadığını kontrol eden kısım.	
+
+        // KullanÄ±cÄ±nÄ±n girdiÄŸi katÄ±lÄ±mcÄ± numarasÄ±nÄ±n geÃ§erli olup olmadÄ±ÄŸÄ±nÄ± kontrol eden kÄ±sÄ±m.	
         if (i >= 1 && i <= katilimciSayisi) {
-            printf("%d. %s, Teklifinizi giriniz (cikmak icin 0'a basiniz):$", i, enYuksekTeklifSahibi[i - 1].ad);
+            printf("%d. %s, Teklifinizi giriniz (cikmak icin 0'a basiniz): $", i, enYuksekTeklifSahibi[i - 1].ad);
             scanf("%lf", &teklif);
-			//Eğer kullanıcı 0'a basarsa programı sona erdiren kısım.
+
+            // EÄŸer kullanÄ±cÄ± 0'a basarsa programÄ± sona erdiren kÄ±sÄ±m.
             if (teklif == 0) {
                 printf("Acik artirma sona erdi.\n");
                 continue;
             }
-			// Yeni teklif en yüksek tekliften büyükse en yüksek teklif güncelleniyor.
+
+            // Yeni teklif en yÃ¼ksek tekliften bÃ¼yÃ¼kse en yÃ¼ksek teklifi gÃ¼ncelleyen kÄ±sÄ±m.
             if (teklif > enYuksekTeklif) {
+                enYuksekTeklifSahibi[i - 1].teklif = teklif;
                 enYuksekTeklif = teklif;
-                printf("Yeni en yuksek teklif!:%lf$ (%s)\n", enYuksekTeklif, enYuksekTeklifSahibi[i - 1].ad);
+                printf("Yeni en yuksek teklif: %lf$ (%s)\n", enYuksekTeklif, enYuksekTeklifSahibi[i - 1].ad);
             } else {
                 printf("Daha yuksek bir teklif vermelisiniz.\n");
             }
-			// Katılımcının teklifi güncelleyen kısım.
-            enYuksekTeklifSahibi[i - 1].teklif = teklif;
-            
-        } else { // Geçersiz bir katılımcı numarası girildiyse kullanıcıyı uyaran kısım.
+        } else {
+            // GeÃ§ersiz bir katÄ±lÄ±mcÄ± numarasÄ± girildiyse kullanÄ±cÄ±yÄ± uyaran kÄ±sÄ±m.
             printf("Gecersiz katilimci numarasi. Lutfen tekrar deneyin.\n");
+            int ch;
+            while (getchar() != '\n');/*KullanÄ±cÄ±nÄ±n scanf fonksiyonu ile giriÅŸ yaptÄ±ÄŸÄ± deÄŸerin 
+			ardÄ±ndan oluÅŸan newline karakterini (Enter tuÅŸuna basÄ±lmasÄ± sonucu oluÅŸan karakter) 
+			temizlemek iÃ§in kullanÄ±lÄ±r. */
         }
-        
     }
 
     return 0;
